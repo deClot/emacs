@@ -14,6 +14,7 @@
 
 (defvar myPackages
   '(material-theme
+    ein
     ))
 
 (mapc #'(lambda (package)
@@ -37,6 +38,14 @@
 ;(setq redisplay-dont-pause t)  ;; лучшая отрисовка буфера
 (setq ring-bell-function 'ignore) ;; отключить звуковой сигнал
 
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(package-initialize)
+(require 'ergoemacs-mode)
+(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+
+
+
 ;; PYTHON CONFIGURATION
 ;; --------------------------------------
 
@@ -48,13 +57,18 @@
 ; Fixing another key binding bug in iedit mode
 (define-key global-map (kbd "C-c o") 'iedit-mode)
 
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (iedit yasnippet-snippets elpy material-theme))))
+ '(package-selected-packages
+   (quote
+    (ein flycheck ergoemacs-mode iedit yasnippet-snippets elpy material-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
